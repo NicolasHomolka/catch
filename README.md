@@ -1,5 +1,3 @@
 # Catch Game - Websocket
 
-Nicolas Homolka
-Andreas Prinz 
-NVS Project
+Nicolas Homolka,Andreas Prinz --> NVS Project
