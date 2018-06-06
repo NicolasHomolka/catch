@@ -31,31 +31,31 @@ io.on('connection', function(socket) {
     players[socket.id] = {
       x: 300,
       y: 300
-    }; 
+    };
   });
 
   //delete players from the game
   socket.on('disconnect', function(){
-    delete players[socket.id]; 
+    delete players[socket.id];
 });
-  
+
   socket.on('movement', function(data) {
     var player = players[socket.id] || {};
-    if (data.left) {
+    if (data.left && player.x >= 15) {
       player.x -= 5;
     }
-    if (data.up) {
+    if (data.up && player.y >= 15) {
       player.y -= 5;
     }
-    if (data.right) {
+    if (data.right && player.x <= 635) {
       player.x += 5;
     }
-    if (data.down) {
+    if (data.down && player.y <= 885) {
       player.y += 5;
     }
   });
 });
+
 setInterval(function() {
   io.sockets.emit('state', players);
 }, 1000 / 60);
-
