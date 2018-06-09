@@ -9,6 +9,7 @@ var movement = {
   left: false,
   right: false
 }
+
 document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
@@ -44,21 +45,34 @@ document.addEventListener('keyup', function(event) {
 });
 
 socket.emit('new player');
+
 setInterval(function() {
   socket.emit('movement', movement);
-}, 1000 / 60);
+}, 30000 / 60);
 
-var canvas = document.getElementById('canvas');
-canvas.width = 650;
-canvas.height = 900;
-var context = canvas.getContext('2d');
-socket.on('state', function(players) {
-  context.clearRect(0, 0, 800, 600);
-  context.fillStyle = 'black';
-  for (var id in players) {
-    var player = players[id];
-    context.beginPath();
-    context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
-    context.fill();
-  }
+function redoCanvas(){
+  var canvas = document.getElementById('canvas');
+  canvas.width = 650;
+  canvas.height = 900;
+  var context = canvas.getContext('2d');
+  socket.on('state', function(players) {
+    context.clearRect(0, 0, 650, 900);
+    for (var id in players) {
+      var player = players[id];
+      if(player.gefangen){
+        context.fillStyle = "black";
+      }else{
+        context.fillStyle = "blue"; 
+      }
+      context.beginPath();
+      context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+      context.fill();
+    }
+  });
+}
+
+redoCanvas();
+
+socket.on('redoCanvas', function(players){
+  redoCanvas();
 });
