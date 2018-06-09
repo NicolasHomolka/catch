@@ -33,8 +33,8 @@ io.on('connection', function(socket) {
       name: socket.id,
       x: 300,
       y: 300,
-      gefangen: false
-    }; 
+      faenger: false
+    };
     anzPlayers = Object.keys(players).length;
     console.log('New Player joined the Game: ' + players[socket.id].name + ', ' + players[socket.id].x + ', ' + players[socket.id].y);
     console.log(anzPlayers);
@@ -42,10 +42,10 @@ io.on('connection', function(socket) {
 
   //delete players from the game
   socket.on('disconnect', function(){
-    delete players[socket.id]; 
+    delete players[socket.id];
     anzPlayers = Object.keys(players).length;
 });
-  
+
 socket.on('movement', function(data) {
 
   var player = players[socket.id] || {};
@@ -60,7 +60,7 @@ socket.on('movement', function(data) {
   if (data.right && player.x <= 635) {
     player.x += 5;
   }
-  if (data.down && player.y <= 885) {
+  if (data.down && player.y <= 635) {
     player.y += 5;
   }
 
@@ -70,14 +70,14 @@ socket.on('movement', function(data) {
       /*if((player.x == players[test].x+20 || player.x == players[test].x-20) && (player.y == players[test].y+20 || player.y == players[test].y-20)){
         console.log("test")
       }*/
-      
+
       //console.log(player.x, players[test].x-15);
       if(player.x == players[test].x && player.y == players[test].y){
-        //console.log(player.name, 'wurde gefangen');
-        players[test].gefangen = true;
+        //console.log(player.name, 'wurde faenger');
+        players[test].faenger = true;
         io.sockets.emit('redoCanvas', players);
       }
-    } 
+    }
   }
 
 });
@@ -88,5 +88,3 @@ socket.on('movement', function(data) {
 setInterval(function() {
   io.sockets.emit('state', players);
 }, 0.0005 / 60);
-
-

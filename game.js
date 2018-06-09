@@ -48,21 +48,21 @@ socket.emit('new player');
 
 setInterval(function() {
   socket.emit('movement', movement);
-}, 30000 / 60);
+}, 1000 / 60);
 
 function redoCanvas(){
   var canvas = document.getElementById('canvas');
   canvas.width = 650;
-  canvas.height = 900;
+  canvas.height = 650;
   var context = canvas.getContext('2d');
   socket.on('state', function(players) {
-    context.clearRect(0, 0, 650, 900);
+    context.clearRect(0, 0, 650, 650);
     for (var id in players) {
       var player = players[id];
-      if(player.gefangen){
+      if(player.faenger){
         context.fillStyle = "black";
       }else{
-        context.fillStyle = "blue"; 
+        context.fillStyle = "blue";
       }
       context.beginPath();
       context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
