@@ -44,7 +44,7 @@ document.addEventListener('keyup', function(event) {
   }
 });
 
-socket.emit('new player');
+socket.emit('new player', document.getElementById('color').value);
 
 setInterval(function() {
   socket.emit('movement', movement);
@@ -62,7 +62,7 @@ function redoCanvas(){
       if(player.faenger){
         context.fillStyle = "black";
       }else{
-        context.fillStyle = "blue";
+        context.fillStyle = player.color;
       }
       context.beginPath();
       context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
