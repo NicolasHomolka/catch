@@ -22,6 +22,10 @@
       <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Start"/>
     </form>
 
+    <div>
+      <input type="button" onclick="setVisible()" value="Zurück zum Start">
+    </div>
+
     <script>
       //sets the homescreen invisible and starts the game
         function setInvisible(){
@@ -33,6 +37,11 @@
           script.src = 'static/game.js';
           document.body.appendChild(script);
         };
+
+        function setVisible(){
+          document.getElementById("homescreen").style.display="block";
+          document.getElementById("canvas").style.display="none";
+        }
       </script>
   </body>
   

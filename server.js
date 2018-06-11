@@ -7,6 +7,7 @@ var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
 var anzPlayers;
+var count = 0;
 app.set("port", 5000);
 app.use("/static", express.static(__dirname + "/static"));
 
@@ -49,7 +50,6 @@ io.on("connection", function(socket) {
 
   //checks if there is no catcher in the game yet
   var check = false;
-  var count = 0;
   var max = Object.keys(players).length;
 
   for (var test in players) {
@@ -63,7 +63,7 @@ io.on("connection", function(socket) {
 
       //if there is no catcher and there are at least 3 players, choose a random one
       if (check == false && Object.keys(players).length >= 2) {
-        //console.log("Mehr wie 2 Spieler ohne Faenger");
+        
         check = true;
       }
     } else {
@@ -71,24 +71,38 @@ io.on("connection", function(socket) {
       setFaenger();
     }
     //checks if there is only one catcher left
-    if (count + 1 == max && check == true && Object.keys(players).length >= 3){
-      window.confirm("The game hast endet... There is only one runner left!");
-    } else if (players[test].faenger == true) {
-      count ++;
-    }
+
   }
+
+
+  socket.on('checkFaenger',function() {
+    for (var id in players){
+      if (players[id].faenger == true){
+        count ++;
+      }
+    }
+
+    if (count + 1 == max && check == true){
+      io.sockets.emit('endgame');
+    } 
+
+    console.log('sind Fänger:', count);
+
+  });
 
   //sets a random faenger
   function setFaenger(){
 
   var anz = Object.keys(players).length;
-  var rand = Math.round(Math.random() * anz);
+  var rand = Math.round(Math.random() * 10);
 
-  //console.log(rand);
+  while (rand >= anz){
+    rand = Math.round(Math.random() * 10);
+  }
+  console.log(rand);
   var akt = Object.keys(players);
   //console.log(akt[rand]);
   players[akt[rand]].faenger = true;
-
   }
   //delete players from the game
   socket.on("disconnect", function() {
@@ -113,6 +127,9 @@ io.on("connection", function(socket) {
     }
 
     for (var test in players) {
+
+
+
       //console.log(test, players[test].x);
       if (player.name != test.name) {
         //calculates the distance between 2 player

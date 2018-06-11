@@ -48,6 +48,7 @@ socket.emit('new player', document.getElementById('color').value);
 
 setInterval(function() {
   socket.emit('movement', movement);
+  socket.emit('checkFaenger');
 }, 1000 / 60);
 
 function redoCanvas(){
@@ -75,4 +76,8 @@ redoCanvas();
 
 socket.on('redoCanvas', function(players){
   redoCanvas();
+});
+
+socket.on('endgame', function(){
+  window.alert('Game has endet');
 });
