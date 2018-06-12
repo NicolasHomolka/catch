@@ -1,5 +1,5 @@
 var socket = io();
-socket.on('message', function(data) {
+socket.on("message", function(data) {
   console.log(data);
 });
 
@@ -8,9 +8,9 @@ var movement = {
   down: false,
   left: false,
   right: false
-}
+};
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener("keydown", function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
@@ -27,7 +27,7 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-document.addEventListener('keyup', function(event) {
+document.addEventListener("keyup", function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = false;
@@ -44,25 +44,24 @@ document.addEventListener('keyup', function(event) {
   }
 });
 
-socket.emit('new player', document.getElementById('color').value);
+socket.emit("new player", document.getElementById("color").value);
 
 setInterval(function() {
-  socket.emit('movement', movement);
-  socket.emit('checkFaenger');
+  socket.emit("movement", movement);
 }, 1000 / 60);
 
-function redoCanvas(){
-  var canvas = document.getElementById('canvas');
+function redoCanvas() {
+  var canvas = document.getElementById("canvas");
   canvas.width = 650;
   canvas.height = 650;
-  var context = canvas.getContext('2d');
-  socket.on('state', function(players) {
+  var context = canvas.getContext("2d");
+  socket.on("state", function(players) {
     context.clearRect(0, 0, 650, 650);
     for (var id in players) {
       var player = players[id];
-      if(player.faenger){
+      if (player.faenger) {
         context.fillStyle = "black";
-      }else{
+      } else {
         context.fillStyle = player.color;
       }
       context.beginPath();
@@ -72,12 +71,34 @@ function redoCanvas(){
   });
 }
 
+function endgame() {
+  window.alert("Game has ended");
+}
+
+//checks how much catcher there are
+function checkFaenger() {
+  socket.on("getPlayers", function(players){
+
+    var max = Object.keys(players).length;
+    var count = 0;
+    for (var id in players) {
+      if (players[id].faenger == true) {
+        count++;
+      }
+    }
+    socket.on("getCheck", function(check) {
+
+      if (count + 1 == max && check == true) {
+        endgame();
+      }
+    });    
+  });
+}
+
 redoCanvas();
 
-socket.on('redoCanvas', function(players){
+socket.on("redoCanvas", function(players) {
   redoCanvas();
+  checkFaenger();
 });
 
-socket.on('endgame', function(){
-  window.alert('Game has endet');
-});

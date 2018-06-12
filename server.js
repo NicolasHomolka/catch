@@ -7,7 +7,6 @@ var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
 var anzPlayers;
-var count = 0;
 app.set("port", 5000);
 app.use("/static", express.static(__dirname + "/static"));
 
@@ -26,6 +25,7 @@ io.on("connection", function(socket) {});
 
 //add Players to the game
 var players = {};
+var check = false;
 io.on("connection", function(socket) {
   socket.on("new player", function(setcolor) {
     players[socket.id] = {
@@ -49,9 +49,7 @@ io.on("connection", function(socket) {
   });
 
   //checks if there is no catcher in the game yet
-  var check = false;
-  var max = Object.keys(players).length;
-
+  
   for (var test in players) {
     //console.log(JSON.stringify(test));
     if (check == false) {
@@ -74,22 +72,6 @@ io.on("connection", function(socket) {
 
   }
 
-
-  socket.on('checkFaenger',function() {
-    for (var id in players){
-      if (players[id].faenger == true){
-        count ++;
-      }
-    }
-
-    if (count + 1 == max && check == true){
-      io.sockets.emit('endgame');
-    } 
-
-    console.log('sind Fänger:', count);
-
-  });
-
   //sets a random faenger
   function setFaenger(){
 
@@ -104,10 +86,12 @@ io.on("connection", function(socket) {
   //console.log(akt[rand]);
   players[akt[rand]].faenger = true;
   }
+
   //delete players from the game
   socket.on("disconnect", function() {
     delete players[socket.id];
     anzPlayers = Object.keys(players).length;
+
   });
 
   socket.on("movement", function(data) {
@@ -145,6 +129,8 @@ io.on("connection", function(socket) {
         ) {
           players[test].faenger = true;
           io.sockets.emit("redoCanvas", players);
+          io.sockets.emit("getPlayers", players);
+          io.sockets.emit("getCheck", check);
         }
       }
     }
@@ -152,7 +138,5 @@ io.on("connection", function(socket) {
 });
 
 setInterval(function() {
-  io.sockets.emit("state", players);
+  io.sockets.emit("state", players);  
 }, 0.0005 / 60);
-
-  
