@@ -3,6 +3,7 @@ socket.on("message", function(data) {
   console.log(data);
 });
 
+
 var movement = {
   up: false,
   down: false,
@@ -44,11 +45,17 @@ document.addEventListener("keyup", function(event) {
   }
 });
 
-socket.emit("new player", document.getElementById("color").value);
+socket.emit("new player", document.getElementById("username").value, document.getElementById("color").value);
 
 setInterval(function() {
   socket.emit("movement", movement);
 }, 1000 / 60);
+
+socket.on("name", function(players){
+
+  list(players);
+});
+
 
 function redoCanvas() {
   var canvas = document.getElementById("canvas");
@@ -71,11 +78,9 @@ function redoCanvas() {
   });
 }
 
-function endgame() {
-  window.alert("Game has ended");
-}
 
-//checks how much catcher there are
+
+//faengerCheckeds how much catcher there are
 function checkFaenger() {
   socket.on("getPlayers", function(players){
 
@@ -86,12 +91,7 @@ function checkFaenger() {
         count++;
       }
     }
-    socket.on("getCheck", function(check) {
 
-      if (count + 1 == max && check == true) {
-        endgame();
-      }
-    });    
   });
 }
 
@@ -102,3 +102,6 @@ socket.on("redoCanvas", function(players) {
   checkFaenger();
 });
 
+socket.on('goBack', function(){
+  setVisible();
+});

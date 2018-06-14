@@ -26,9 +26,13 @@ io.on("connection", function(socket) {});
 //add Players to the game
 var players = {};
 var check = false;
+
+//---------------On Connection--------------------------
 io.on("connection", function(socket) {
-  socket.on("new player", function(setcolor) {
+  //--------------On New Player---------------------------
+  socket.on("new player", function(einName, setcolor) {
     players[socket.id] = {
+      eingegName: einName,
       name: socket.id,
       x: 300,
       y: 300,
@@ -39,6 +43,8 @@ io.on("connection", function(socket) {
     anzPlayers = Object.keys(players).length;
     console.log(
       "New Player joined the Game: " +
+        players[socket.id].eingegName +
+        ", " +
         players[socket.id].name +
         ", " +
         players[socket.id].x +
@@ -47,9 +53,10 @@ io.on("connection", function(socket) {
     );
     console.log(anzPlayers);
   });
+  //--------------End On New Player---------------------------
+
 
   //checks if there is no catcher in the game yet
-  
   for (var test in players) {
     //console.log(JSON.stringify(test));
     if (check == false) {
@@ -61,31 +68,31 @@ io.on("connection", function(socket) {
 
       //if there is no catcher and there are at least 3 players, choose a random one
       if (check == false && Object.keys(players).length >= 2) {
-        
+        setFaenger();
         check = true;
       }
-    } else {
-      //console.log("set Faenger wird ausgefuehrt");
-      setFaenger();
     }
-    //checks if there is only one catcher left
 
   }
+
 
   //sets a random faenger
   function setFaenger(){
 
   var anz = Object.keys(players).length;
   var rand = Math.round(Math.random() * 10);
-
   while (rand >= anz){
     rand = Math.round(Math.random() * 10);
   }
-  console.log(rand);
-  var akt = Object.keys(players);
-  //console.log(akt[rand]);
-  players[akt[rand]].faenger = true;
+  var aktuell = Object.keys(players);
+  players[aktuell[rand]].faenger = true;
   }
+
+
+
+
+
+
 
   //delete players from the game
   socket.on("disconnect", function() {
@@ -93,7 +100,7 @@ io.on("connection", function(socket) {
     anzPlayers = Object.keys(players).length;
 
   });
-
+  //--------------------On Movement----------------------
   socket.on("movement", function(data) {
     var player = players[socket.id] || {};
 
@@ -110,11 +117,9 @@ io.on("connection", function(socket) {
       player.y += 5;
     }
 
+
     for (var test in players) {
 
-
-
-      //console.log(test, players[test].x);
       if (player.name != test.name) {
         //calculates the distance between 2 player
         var dist = Math.sqrt(
@@ -130,13 +135,48 @@ io.on("connection", function(socket) {
           players[test].faenger = true;
           io.sockets.emit("redoCanvas", players);
           io.sockets.emit("getPlayers", players);
-          io.sockets.emit("getCheck", check);
+          io.sockets.emit("getfaengerChecked", check);
         }
       }
     }
-  });
+
+
+
+
+
+
+
+
+    var count = 0;
+    for (var id in players) {
+      if (players[id].faenger == true) {
+        count++;
+      }
+    }
+    var max = Object.keys(players).length;
+    if (count + 1 == max && check == true && Object.keys(players).length > 2) {
+      endgame();
+  }
+
 });
 
+
+  //----------------End On Movement-----------------------
+});
+
+//------------------End On Connection-------------------------
 setInterval(function() {
-  io.sockets.emit("state", players);  
-}, 0.0005 / 60);
+  io.sockets.emit("state", players);
+  io.sockets.emit("name", players);
+}, 1000 / 60);
+
+
+
+
+function endgame() {
+  players = {};
+  console.log(Object.keys(players).length);
+  io.sockets.emit('redoCanvas');
+  io.sockets.emit('goBack');
+  check = false;
+}

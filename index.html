@@ -10,20 +10,43 @@
       }
     </style>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
+
+
   <body>
-      
-    <canvas id="canvas"></canvas>
-    <!-- Homescreen -->
-    <form id="homescreen">
+
+    <div class="w3-content w3-container w3-padding-32">
+
+    <form style="display: none;" id="endscreen">
+      <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xlarge fa fa-home w3-text-red"></input>
+    </form>
+
+
+
+
+
+    <div class="w3-left w3-container w3-content">
+      <canvas  style="display: none;" id="canvas"></canvas>
+    </div>
+
+
+    <div id="list" class="w3-right w3-container w3-content">
+
+    </div>
+
+
+
+
+
+    <form class="w3-center" id="homescreen">
       <input id="username" type="text" placeholder="Enter your name here"/><br> <br>
       <span>Choose your color here:</span>
       <input id="color" type="color" value="#0000ff"/>
       <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Start"/>
     </form>
 
-    <div>
-      <input type="button" onclick="setVisible()" value="Zurück zum Start">
     </div>
 
     <script>
@@ -31,7 +54,7 @@
         function setInvisible(){
           document.getElementById("homescreen").style.display="none";
           document.getElementById("canvas").style.display="block";
-    
+          document.getElementById("endscreen").style.display="none";
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.src = 'static/game.js';
@@ -39,12 +62,33 @@
         };
 
         function setVisible(){
-          document.getElementById("homescreen").style.display="block";
           document.getElementById("canvas").style.display="none";
+          document.getElementById("endscreen").style.display="block";
+          document.getElementById("list").style.display="none";
         }
+
+
+        var namelist = [];
+        function list(players){
+
+
+          for (var id in players){
+
+            if ($.inArray(players[id].eingegName, namelist) === -1){
+              namelist.push(players[id].eingegName);
+            }
+
+          }
+
+          $("#list").empty();
+          $("#list").append(namelist);
+
+        }
+
       </script>
+
   </body>
-  
- 
-  
+
+
+
 </html>
