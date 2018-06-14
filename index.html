@@ -1,6 +1,17 @@
+<!-- 
+
+TODOS:
+
+Schöner machen
+Spielerliste 
+Wer gewonnen hat nachher ausgeben 
+
+-->
+
+
 <html>
   <head>
-    <title>Homolka Prinz Fangen</title>
+    <title>Catch</title>
     <style>
       canvas {
         width: 650px;
@@ -40,11 +51,14 @@
 
 
 
-    <form class="w3-center" id="homescreen">
-      <input id="username" type="text" placeholder="Enter your name here"/><br> <br>
-      <span>Choose your color here:</span>
-      <input id="color" type="color" value="#0000ff"/>
-      <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Start"/>
+    <form class="w3-center w3-border" id="homescreen">
+      <h1>Catch!</h1><hr> <br><br><br>
+      <label for="username">Spielername:</label>
+      <input id="username" type="text" placeholder="Bitte Namen eingeben" autofocus required/><br> <br><br>
+      <label for="color">Wählen Sie bitte eine Farbe aus:</label>
+      <input id="color" type="color" value="#0000ff" required/><br> <br>
+      <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Spiel starten"/>
+      <br><br><br>
     </form>
 
     </div>

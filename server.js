@@ -31,11 +31,19 @@ var check = false;
 io.on("connection", function(socket) {
   //--------------On New Player---------------------------
   socket.on("new player", function(einName, setcolor) {
+    var x = Math.round(Math.random() * 635);
+    while (x < 15){
+      x = Math.round(Math.random() * 635);
+    }
+    var y = Math.round(Math.random() * 635);
+    while (y < 15){
+      y = Math.round(Math.random() * 635);
+    }
     players[socket.id] = {
       eingegName: einName,
       name: socket.id,
-      x: 300,
-      y: 300,
+      x: x,
+      y: y,
       faenger: false,
       color: setcolor
     };
