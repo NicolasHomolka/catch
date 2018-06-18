@@ -59,11 +59,11 @@ socket.on("name", function(players){
 
 function redoCanvas() {
   var canvas = document.getElementById("canvas");
-  canvas.width = 650;
-  canvas.height = 650;
+  canvas.width = 1000;
+  canvas.height = 1000;
   var context = canvas.getContext("2d");
   socket.on("state", function(players) {
-    context.clearRect(0, 0, 650, 650);
+    context.clearRect(0, 0, 1000, 1000);
     for (var id in players) {
       var player = players[id];
       if (player.faenger) {

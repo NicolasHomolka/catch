@@ -31,13 +31,13 @@ var check = false;
 io.on("connection", function(socket) {
   //--------------On New Player---------------------------
   socket.on("new player", function(einName, setcolor) {
-    var x = Math.round(Math.random() * 635);
+    var x = Math.round(Math.random() * 985);
     while (x < 15){
-      x = Math.round(Math.random() * 635);
+      x = Math.round(Math.random() * 985);
     }
-    var y = Math.round(Math.random() * 635);
+    var y = Math.round(Math.random() * 985);
     while (y < 15){
-      y = Math.round(Math.random() * 635);
+      y = Math.round(Math.random() * 985);
     }
     players[socket.id] = {
       eingegName: einName,
@@ -118,10 +118,10 @@ io.on("connection", function(socket) {
     if (data.up && player.y >= 15) {
       player.y -= 5;
     }
-    if (data.right && player.x <= 635) {
+    if (data.right && player.x <= 985) {
       player.x += 5;
     }
-    if (data.down && player.y <= 635) {
+    if (data.down && player.y <= 985  ) {
       player.y += 5;
     }
 

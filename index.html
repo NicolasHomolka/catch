@@ -3,8 +3,8 @@
 TODOS:
 
 Schöner machen
-Spielerliste 
 Wer gewonnen hat nachher ausgeben 
+Benutzerhandbuch
 
 -->
 
@@ -14,8 +14,8 @@ Wer gewonnen hat nachher ausgeben
     <title>Catch</title>
     <style>
       canvas {
-        width: 650px;
-        height: 650px;
+        width: 1000px;
+        height: 1000px;
         border: 4px solid grey;
         display: none;
       }
@@ -28,9 +28,9 @@ Wer gewonnen hat nachher ausgeben
 
   <body>
 
-    <div class="w3-content w3-container w3-padding-32">
+    <div class="w3-row w3-center">
 
-    <form style="display: none;" id="endscreen">
+    <form class="w3-center" style="display: none;" id="endscreen">
       <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xlarge fa fa-home w3-text-red"></input>
     </form>
 
@@ -38,42 +38,59 @@ Wer gewonnen hat nachher ausgeben
 
 
 
-    <div class="w3-left w3-container w3-content">
+    <div class="w3-col m5 w3-center w3-padding-64 w3-margin-left">
       <canvas  style="display: none;" id="canvas"></canvas>
     </div>
 
 
-    <div id="list" class="w3-right w3-container w3-content">
-
+    <div style="display: none;" id="list" class="w3-col m5 w3-center w3-padding-64 w3-margin-right">
+      <table id="myTable">
+        <tr>
+          <td>Row1 cell1</td>
+          <td>Row1 cell2</td>
+        </tr>
+        <tr>
+          <td>Row2 cell1</td>
+          <td>Row2 cell2</td>
+        </tr>
+        <tr>
+          <td>Row3 cell1</td>
+          <td>Row3 cell2</td>
+        </tr>
+      </table>
+      <br>
     </div>
 
 
 
-
+  </div>
 
     <form class="w3-center w3-border" id="homescreen">
       <h1>Catch!</h1><hr> <br><br><br>
       <label for="username">Spielername:</label>
-      <input id="username" type="text" placeholder="Bitte Namen eingeben" autofocus required/><br> <br><br>
+      <input id="username" type="text" placeholder="Bitte Namen eingeben" autofocus required/><br> <br><br> 
       <label for="color">Wählen Sie bitte eine Farbe aus:</label>
       <input id="color" type="color" value="#0000ff" required/><br> <br>
       <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Spiel starten"/>
       <br><br><br>
     </form>
 
-    </div>
+ 
 
     <script>
       //sets the homescreen invisible and starts the game
         function setInvisible(){
           document.getElementById("homescreen").style.display="none";
           document.getElementById("canvas").style.display="block";
+          document.getElementById("list").style.display="block";
           document.getElementById("endscreen").style.display="none";
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.src = 'static/game.js';
           document.body.appendChild(script);
         };
+
+
 
         function setVisible(){
           document.getElementById("canvas").style.display="none";
@@ -83,19 +100,41 @@ Wer gewonnen hat nachher ausgeben
 
 
         var namelist = [];
+        var faengerlist = [];
         function list(players){
 
+
+          $("#list").empty();
+
+          $("#list").append("<table class='w3-table-all' id='myTable'><tr><th>Spielername</th><th>Fänger</th><th>Farbe</th></tr></table><br>");
 
           for (var id in players){
 
             if ($.inArray(players[id].eingegName, namelist) === -1){
               namelist.push(players[id].eingegName);
+              faengerlist.push(players[id].faenger);
             }
+
+          var table = document.getElementById("myTable");
+          var row = table.insertRow(1);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          cell1.innerHTML = players[id].eingegName;
+          cell2.innerHTML = players[id].faenger;
+          cell3.innerHTML = players[id].color;
+
 
           }
 
-          $("#list").empty();
-          $("#list").append(namelist);
+
+
+          //$("#list").append(namelist);
+
+
+
+
+
 
         }
 
