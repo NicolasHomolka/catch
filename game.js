@@ -1,3 +1,5 @@
+// 18. Juni 2018, 13:37 
+
 var socket = io();
 socket.on("message", function(data) {
   console.log(data);
