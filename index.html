@@ -19,6 +19,15 @@ Benutzerhandbuch
         border: 4px solid grey;
         display: none;
       }
+      footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: lightblue;
+        color: white;
+        text-align: center;
+}
     </style>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -30,8 +39,9 @@ Benutzerhandbuch
 
     <div class="w3-row w3-center">
 
-    <form class="w3-center" style="display: none;" id="endscreen">
-      <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xlarge fa fa-home w3-text-red"></input>
+    <form class="w3-center w3-padding-large" style="display: none;" id="endscreen">
+      <h3>Das Spiel ist vorbei!</h3>
+      <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xxxlarge fa fa-home w3-text-red"></input>
     </form>
 
 
@@ -44,20 +54,7 @@ Benutzerhandbuch
 
 
     <div style="display: none;" id="list" class="w3-col m5 w3-center w3-padding-64 w3-margin-right">
-      <table id="myTable">
-        <tr>
-          <td>Row1 cell1</td>
-          <td>Row1 cell2</td>
-        </tr>
-        <tr>
-          <td>Row2 cell1</td>
-          <td>Row2 cell2</td>
-        </tr>
-        <tr>
-          <td>Row3 cell1</td>
-          <td>Row3 cell2</td>
-        </tr>
-      </table>
+
       <br>
     </div>
 
@@ -75,6 +72,11 @@ Benutzerhandbuch
       <br><br><br>
     </form>
 
+    <footer>
+      <p class="w3-xlarge">Authors: Nicolas Homolka, Andreas Prinz</p>
+      <a class="w3-xlarge" href="https://github.com/NicolasHomolka/catch">Read our User Guide on Github!</a>
+      <br><br>
+    </footer>
  
 
     <script>
