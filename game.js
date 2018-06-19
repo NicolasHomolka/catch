@@ -1,4 +1,4 @@
-// 18. Juni 2018, 13:37 
+// 18. Juni 2018, 13:37
 
 var socket = io();
 socket.on("message", function(data) {
@@ -61,11 +61,11 @@ socket.on("name", function(players){
 
 function redoCanvas() {
   var canvas = document.getElementById("canvas");
-  canvas.width = 1000;
-  canvas.height = 1000;
+  canvas.width = 700;
+  canvas.height = 600;
   var context = canvas.getContext("2d");
   socket.on("state", function(players) {
-    context.clearRect(0, 0, 1000, 1000);
+    context.clearRect(0, 0, 700, 600);
     for (var id in players) {
       var player = players[id];
       if (player.faenger) {

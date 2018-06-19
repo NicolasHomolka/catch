@@ -1,4 +1,4 @@
-// 18. Juni 2018, 13:37 
+// 18. Juni 2018, 13:37
 
 // Dependencies
 var express = require("express");
@@ -33,13 +33,13 @@ var check = false;
 io.on("connection", function(socket) {
   //--------------On New Player---------------------------
   socket.on("new player", function(einName, setcolor) {
-    var x = Math.round(Math.random() * 985);
+    var x = Math.round(Math.random() * 685);
     while (x < 15){
-      x = Math.round(Math.random() * 985);
+      x = Math.round(Math.random() * 685);
     }
-    var y = Math.round(Math.random() * 985);
+    var y = Math.round(Math.random() * 585);
     while (y < 15){
-      y = Math.round(Math.random() * 985);
+      y = Math.round(Math.random() * 585);
     }
     players[socket.id] = {
       eingegName: einName,
@@ -120,10 +120,10 @@ io.on("connection", function(socket) {
     if (data.up && player.y >= 15) {
       player.y -= 5;
     }
-    if (data.right && player.x <= 985) {
+    if (data.right && player.x <= 685) {
       player.x += 5;
     }
-    if (data.down && player.y <= 985  ) {
+    if (data.down && player.y <= 585  ) {
       player.y += 5;
     }
 

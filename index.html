@@ -1,11 +1,11 @@
 <!-- 18. Juni 2018, 13:37 -->
 
-<!-- 
+<!--
 
 TODOS:
 
 Schöner machen
-Wer gewonnen hat nachher ausgeben 
+Wer gewonnen hat nachher ausgeben
 Benutzerhandbuch
 
 -->
@@ -16,8 +16,8 @@ Benutzerhandbuch
     <title>Catch</title>
     <style>
       canvas {
-        width: 1000px;
-        height: 1000px;
+        width: 700px;
+        height: 600px;
         border: 4px solid grey;
         display: none;
       }
@@ -43,6 +43,7 @@ Benutzerhandbuch
 
     <form class="w3-center w3-padding-large" style="display: none;" id="endscreen">
       <h3>Das Spiel ist vorbei!</h3>
+      <p id="endlist"></p>
       <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xxxlarge fa fa-home w3-text-red"></input>
     </form>
 
@@ -50,12 +51,12 @@ Benutzerhandbuch
 
 
 
-    <div class="w3-col m5 w3-center w3-padding-64 w3-margin-left">
+    <div class="w3-col m5 w3-center w3-padding-64 w3-margin-left w3-margin-bottom">
       <canvas  style="display: none;" id="canvas"></canvas>
     </div>
 
 
-    <div style="display: none;" id="list" class="w3-col m5 w3-center w3-padding-64 w3-margin-right">
+    <div style="display: none;" id="list" class="w3-col m5 w3-right w3-padding-64 w3-margin-right">
 
       <br>
     </div>
@@ -67,19 +68,20 @@ Benutzerhandbuch
     <form class="w3-center w3-border" id="homescreen">
       <h1>Catch!</h1><hr> <br><br><br>
       <label for="username">Spielername:</label>
-      <input id="username" type="text" placeholder="Bitte Namen eingeben" autofocus required/><br> <br><br> 
+      <input id="username" type="text" placeholder="Bitte Namen eingeben" autofocus required/><br> <br><br>
       <label for="color">Wählen Sie bitte eine Farbe aus:</label>
       <input id="color" type="color" value="#0000ff" required/><br> <br>
       <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Spiel starten"/>
       <br><br><br>
     </form>
 
-    <footer>
-      <p class="w3-xlarge">Authors: Nicolas Homolka, Andreas Prinz</p>
-      <a class="w3-xlarge" href="https://github.com/NicolasHomolka/catch">Read our User Guide on Github!</a>
-      <br><br>
-    </footer>
- 
+    <div class="footer">
+    <footer class="w3-center w3-black w3-padding-32 w3-opacity">
+        <p class="w3-large">Authors: Nicolas Homolka, Andreas Prinz</p>
+        <a class="w3-large" href="https://github.com/NicolasHomolka/catch">Take a short look at the user manuals on Github!</a>
+
+      </footer>
+    </div>
 
     <script>
       //sets the homescreen invisible and starts the game
@@ -99,12 +101,31 @@ Benutzerhandbuch
         function setVisible(){
           document.getElementById("canvas").style.display="none";
           document.getElementById("endscreen").style.display="block";
+          endlist();
           document.getElementById("list").style.display="none";
+
         }
 
 
         var namelist = [];
         var faengerlist = [];
+        var playerss
+        var test = 0;
+        function endlist(){
+
+
+            for (var id in playerss){
+              if(playerss[id].faenger == false){
+                test ++;
+                $("#endlist").empty();
+                $("#endlist").append(playerss[id].eingegName + ' ist der Gewinner!');
+              }
+
+            }
+            console.log(test);
+            test = 0;
+        }
+
         function list(players){
 
 
@@ -113,7 +134,7 @@ Benutzerhandbuch
           $("#list").append("<table class='w3-table-all' id='myTable'><tr><th>Spielername</th><th>Fänger</th><th>Farbe</th></tr></table><br>");
 
           for (var id in players){
-
+            playerss = players;
             if ($.inArray(players[id].eingegName, namelist) === -1){
               namelist.push(players[id].eingegName);
               faengerlist.push(players[id].faenger);
@@ -130,16 +151,6 @@ Benutzerhandbuch
 
 
           }
-
-
-
-          //$("#list").append(namelist);
-
-
-
-
-
-
         }
 
       </script>
