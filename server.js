@@ -149,14 +149,6 @@ io.on("connection", function(socket) {
         }
       }
     }
-
-
-
-
-
-
-
-
     var count = 0;
     for (var id in players) {
       if (players[id].faenger == true) {
@@ -184,9 +176,16 @@ setInterval(function() {
 
 
 function endgame() {
+  var endlist = [];
+  for(var id in players){
+    if(players[id].faenger == false){
+      endlist.push(players[id].eingegName);
+    }
+  }
   players = {};
   console.log(Object.keys(players).length);
   io.sockets.emit('redoCanvas');
+  io.sockets.emit('endlist', endlist);
   io.sockets.emit('goBack');
   check = false;
 }

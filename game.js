@@ -107,3 +107,7 @@ socket.on("redoCanvas", function(players) {
 socket.on('goBack', function(){
   setVisible();
 });
+
+socket.on('endlist', function(endlist){
+  endList(endlist);
+});

@@ -42,8 +42,9 @@ Benutzerhandbuch
     <div class="w3-row w3-center">
 
     <form class="w3-center w3-padding-large" style="display: none;" id="endscreen">
+      <h1 id="endlist"></h1>
       <h3>Das Spiel ist vorbei!</h3>
-      <p id="endlist"></p>
+      <br><br><br>
       <input value="Nochmal spielen?" type="text" onclick="window.location.reload()" class="w3-bar-item w3-button w3-xxxlarge fa fa-home w3-text-red"></input>
     </form>
 
@@ -73,13 +74,15 @@ Benutzerhandbuch
       <input id="color" type="color" value="#0000ff" required/><br> <br>
       <br> <br> <input id="lobby" type="button" onclick="setInvisible()" value="Spiel starten"/>
       <br><br><br>
+      <a class="w3-medium w3-text-grey" style="text-decoration: none;" href="https://github.com/NicolasHomolka/catch/blob/master/Benutzerhandbuch.pdf">User Manuals</a>
+      <br><br>
     </form>
 
     <div class="footer">
-    <footer class="w3-center w3-black w3-padding-32 w3-opacity">
-        <p class="w3-large">Authors: Nicolas Homolka, Andreas Prinz</p>
-        <a class="w3-large" href="https://github.com/NicolasHomolka/catch">Take a short look at the user manuals on Github!</a>
-
+    <footer class="w3-center w3-dark-grey w3-opacity">
+        <p class="w3-large w3-text-white">Authors: Nicolas Homolka, Andreas Prinz</p>
+        <a style="text-decoration: none;" class="w3-large w3-text-white" href="https://github.com/NicolasHomolka/catch">Visit us on Github!</a>
+        <br><br>
       </footer>
     </div>
 
@@ -101,7 +104,6 @@ Benutzerhandbuch
         function setVisible(){
           document.getElementById("canvas").style.display="none";
           document.getElementById("endscreen").style.display="block";
-          endlist();
           document.getElementById("list").style.display="none";
 
         }
@@ -111,19 +113,12 @@ Benutzerhandbuch
         var faengerlist = [];
         var playerss
         var test = 0;
-        function endlist(){
 
 
-            for (var id in playerss){
-              if(playerss[id].faenger == false){
-                test ++;
-                $("#endlist").empty();
-                $("#endlist").append(playerss[id].eingegName + ' ist der Gewinner!');
-              }
+        function endList(endlist){
 
-            }
-            console.log(test);
-            test = 0;
+          $("#endlist").empty();
+          $("#endlist").append(endlist + ' ist der Gewinner!');
         }
 
         function list(players){
@@ -146,9 +141,16 @@ Benutzerhandbuch
           var cell2 = row.insertCell(1);
           var cell3 = row.insertCell(2);
           cell1.innerHTML = players[id].eingegName;
-          cell2.innerHTML = players[id].faenger;
+          if (players[id].faenger == true){
+            cell2.innerHTML = 'Ja';
+          } else {
+            cell2.innerHTML = 'Nein';
+          }
+          if(players[id].faenger == true){
+            cell3.innerHTML = '#000000'
+          } else {
           cell3.innerHTML = players[id].color;
-
+          }
 
           }
         }
